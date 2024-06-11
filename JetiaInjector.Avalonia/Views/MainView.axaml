@@ -1,0 +1,303 @@
+<UserControl
+	x:Class="JetiaInjector.Avalonia.Views.MainView"
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="clr-namespace:JetiaInjector.Avalonia.ViewModels"
+	d:DesignHeight="600"
+	d:DesignWidth="800"
+	x:DataType="vm:MainViewModel"
+	mc:Ignorable="d">
+	<Design.DataContext>
+		<!--
+			This only sets the DataContext for the previewer in an IDE,
+			to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+		-->
+		<vm:MainViewModel CurrentAction="1" />
+	</Design.DataContext>
+
+	<DockPanel IsEnabled="{CompiledBinding IsInputEnabled}">
+		<Panel DockPanel.Dock="Bottom">
+			<ExperimentalAcrylicBorder IsHitTestVisible="False">
+				<ExperimentalAcrylicBorder.Material>
+					<ExperimentalAcrylicMaterial
+						BackgroundSource="Digger"
+						FallbackColor="White"
+						MaterialOpacity="0.6"
+						TintColor="Gray"
+						TintOpacity="0.4" />
+				</ExperimentalAcrylicBorder.Material>
+			</ExperimentalAcrylicBorder>
+			<Border Padding="8" Background="#40404040">
+				<TextBlock
+					Margin="4,0"
+					FontSize="12"
+					Text="{CompiledBinding Message}" />
+			</Border>
+		</Panel>
+		<Panel>
+			<DockPanel Background="#40404040">
+				<Border Margin="4" DockPanel.Dock="Left">
+					<ListBox
+						Background="Transparent"
+						ItemsSource="{CompiledBinding InjectorActions}"
+						SelectedIndex="{CompiledBinding CurrentAction}">
+						<ListBox.Styles>
+							<Style Selector="ListBoxItem">
+								<Setter Property="Width" Value="48" />
+								<Setter Property="Height" Value="48" />
+								<Setter Property="Padding" Value="0" />
+								<Setter Property="Margin" Value="0,2" />
+								<Setter Property="VerticalContentAlignment" Value="Center" />
+								<Setter Property="HorizontalContentAlignment" Value="Center" />
+								<Setter Property="CornerRadius" Value="4" />
+							</Style>
+						</ListBox.Styles>
+					</ListBox>
+				</Border>
+
+				<Panel Margin="0,0,4,4">
+					<DockPanel Margin="0,4,0,0" IsVisible="{CompiledBinding !CurrentAction}">
+						<TextBlock
+							Margin="8,8,8,4"
+							DockPanel.Dock="Top"
+							FontSize="24"
+							FontWeight="Bold"
+							Text="认证" />
+						<Grid Margin="16,0,8,0">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" MinWidth="120" />
+								<ColumnDefinition />
+								<ColumnDefinition Width="Auto" MinWidth="48" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition />
+							</Grid.RowDefinitions>
+							<TextBlock VerticalAlignment="Center" Text="证书颁发机构" />
+							<TextBox
+								Grid.Column="1"
+								Margin="8,4"
+								BorderThickness="0"
+								IsReadOnly="True"
+								Text="{CompiledBinding CertificationIssuer}" />
+							<TextBlock
+								Grid.Row="1"
+								VerticalAlignment="Center"
+								Text="证书持有者" />
+							<TextBox
+								Grid.Row="1"
+								Grid.Column="1"
+								Margin="8,4"
+								BorderBrush="Transparent"
+								BorderThickness="0"
+								Text="{CompiledBinding CertificationSubject,
+								                       Mode=TwoWay}" />
+							<TextBlock
+								Grid.Row="2"
+								VerticalAlignment="Center"
+								Text="证书生成路径" />
+							<TextBox
+								Grid.Row="2"
+								Grid.Column="1"
+								Margin="8,4"
+								BorderBrush="Transparent"
+								BorderThickness="0"
+								Text="{CompiledBinding CertificationDirectory,
+								                       Mode=TwoWay}" />
+							<Button
+								Grid.Row="2"
+								Grid.Column="2"
+								Margin="0,4,4,4"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								HorizontalContentAlignment="Center"
+								VerticalContentAlignment="Center"
+								Command="{CompiledBinding SelectCertificationDirectoryCommand}"
+								Content="选择" />
+							<StackPanel
+								Grid.Row="3"
+								Grid.Column="1"
+								Grid.ColumnSpan="2"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Bottom">
+								<Button
+									Margin="4"
+									Command="{CompiledBinding GenerateCertificationCommand}"
+									Content="生成CA证书" />
+							</StackPanel>
+						</Grid>
+					</DockPanel>
+					<DockPanel Margin="0,4,0,0" IsVisible="{CompiledBinding CurrentAction}">
+						<TextBlock
+							Margin="8,8,8,4"
+							DockPanel.Dock="Top"
+							FontSize="24"
+							FontWeight="Bold"
+							Text="激活" />
+						<Grid Margin="16,0,8,0">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" MinWidth="120" />
+								<ColumnDefinition />
+								<ColumnDefinition Width="Auto" MinWidth="48" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<TextBlock VerticalAlignment="Center" Text="证书颁发机构" />
+							<TextBox
+								Grid.Column="1"
+								Margin="8,4"
+								BorderBrush="Transparent"
+								BorderThickness="0"
+								IsReadOnly="True"
+								Text="{CompiledBinding CertificationIssuer}" />
+							<TextBlock
+								Grid.Row="1"
+								VerticalAlignment="Center"
+								Text="证书持有者" />
+							<TextBox
+								Grid.Row="1"
+								Grid.Column="1"
+								Margin="8,4"
+								BorderBrush="Transparent"
+								BorderThickness="0"
+								Text="{CompiledBinding CertificationSubject,
+								                       Mode=TwoWay}" />
+							<TextBlock
+								Grid.Row="2"
+								VerticalAlignment="Center"
+								Text="密钥文件路径" />
+							<TextBox
+								Grid.Row="2"
+								Grid.Column="1"
+								Margin="8,4"
+								BorderBrush="Transparent"
+								BorderThickness="0"
+								Text="{CompiledBinding PrivateKeyFilePath,
+								                       Mode=TwoWay}" />
+							<Button
+								Grid.Row="2"
+								Grid.Column="2"
+								Margin="0,4,4,4"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								HorizontalContentAlignment="Center"
+								VerticalContentAlignment="Center"
+								Command="{CompiledBinding SelectPrivateKeyFileCommand}"
+								Content="选择" />
+							<TextBlock
+								Grid.Row="3"
+								VerticalAlignment="Center"
+								Text="证书文件路径" />
+							<TextBox
+								Grid.Row="3"
+								Grid.Column="1"
+								Margin="8,4"
+								BorderBrush="Transparent"
+								BorderThickness="0"
+								Text="{CompiledBinding CertificationFilePath,
+								                       Mode=TwoWay}" />
+							<Button
+								Grid.Row="3"
+								Grid.Column="2"
+								Margin="0,4,4,4"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								HorizontalContentAlignment="Center"
+								VerticalContentAlignment="Center"
+								Command="{CompiledBinding SelectCertificationFileCommand}"
+								Content="选择" />
+							<TextBlock
+								Grid.Row="4"
+								VerticalAlignment="Center"
+								Text="配置文件夹路径" />
+							<TextBox
+								Grid.Row="4"
+								Grid.Column="1"
+								Margin="8,4"
+								BorderBrush="Transparent"
+								BorderThickness="0"
+								Text="{CompiledBinding PowerConfigDirectory,
+								                       Mode=TwoWay}" />
+							<Button
+								Grid.Row="4"
+								Grid.Column="2"
+								Margin="0,4,4,4"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								HorizontalContentAlignment="Center"
+								VerticalContentAlignment="Center"
+								Command="{CompiledBinding SelectPowerConfigDirectoryCommand}"
+								Content="选择" />
+							<Border
+								Grid.Row="5"
+								Grid.ColumnSpan="3"
+								Height="1"
+								Margin="0,4,0,12"
+								VerticalAlignment="Center"
+								Background="Gray"
+								BorderThickness="0"
+								Opacity="0.2" />
+							<TextBlock
+								Grid.Row="6"
+								VerticalAlignment="Center"
+								Text="激活码" />
+							<TextBox
+								Grid.Row="7"
+								Grid.ColumnSpan="3"
+								Margin="4"
+								BorderBrush="Transparent"
+								BorderThickness="0"
+								FontFamily="Consolas"
+								IsReadOnly="True"
+								Text="{CompiledBinding ActivationCode}"
+								TextWrapping="Wrap" />
+							<TextBlock
+								Grid.Row="8"
+								VerticalAlignment="Center"
+								Text="配置文件路径" />
+							<TextBox
+								Grid.Row="8"
+								Grid.Column="1"
+								Grid.ColumnSpan="2"
+								Margin="8,4,4,4"
+								BorderBrush="Transparent"
+								BorderThickness="0"
+								IsReadOnly="True"
+								Text="{CompiledBinding PowerConfigFilePath}" />
+							<StackPanel
+								Grid.Row="9"
+								Grid.Column="1"
+								Grid.ColumnSpan="2"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Bottom"
+								Orientation="Horizontal">
+								<Button
+									Margin="4"
+									Command="{CompiledBinding GenerateActivationCodeCommand}"
+									Content="生成激活码" />
+								<Button
+									Margin="4"
+									Command="{CompiledBinding CopyActivationCodeCommand}"
+									Content="复制到剪贴板" />
+							</StackPanel>
+						</Grid>
+					</DockPanel>
+				</Panel>
+			</DockPanel>
+		</Panel>
+	</DockPanel>
+</UserControl>
